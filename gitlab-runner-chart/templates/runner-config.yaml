@@ -1,0 +1,6 @@
+# runner-config.yaml
+
+runners:
+  config: |
+    concurrent = 1
+

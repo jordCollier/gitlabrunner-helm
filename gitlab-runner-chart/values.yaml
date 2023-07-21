@@ -1,0 +1,14 @@
+# values.yaml
+
+gitlabUrl: http://gitlab.example.com  # Replace with your GitLab server URL
+runnerRegistrationToken: YOUR_REGISTRATION_TOKEN  # Replace with your GitLab runner registration token
+runnerExecutor: docker  # Set the executor to docker if using Docker-in-Docker (DinD)
+
+persistence:
+  enabled: true
+  storageClass: default  # Replace with your desired storage class
+  size: 10Gi  # Replace with your desired storage size
+
+gitlab-runner:
+  name: {{ include "gitlab-runner.fullname" . }}
+  fullnameOverride: ""

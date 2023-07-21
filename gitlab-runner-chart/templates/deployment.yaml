@@ -1,0 +1,35 @@
+# deployment.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "gitlab-runner.fullname" . }}
+  labels:
+    app: {{ include "gitlab-runner.name" . }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ include "gitlab-runner.name" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "gitlab-runner.name" . }}
+    spec:
+      containers:
+        - name: gitlab-runner
+          image: gitlab/gitlab-runner:latest
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: runner-persistence
+              mountPath: /etc/gitlab-runner
+          env:
+            - name: CI_SERVER_URL
+              value: {{ .Values.gitlabUrl }}
+            - name: REGISTRATION_TOKEN
+              value: {{ .Values.runnerRegistrationToken }}
+          resources: {}
+      volumes:
+        - name: runner-persistence
+          persistentVolumeClaim:
+            claimName: {{ include "gitlab-runner.fullname" . }}
